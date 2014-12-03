@@ -1,0 +1,9 @@
+2
+1 , 53. , -2. , 1. , 1. , 1.
+2 , 33. , 2. , 2. , 2. , 2.
+
+
+
+This is an example data file, data should be in format
+<amount of particles>
+<id> , <mass>, <charge>, <velX>, <velY>, <velZ>
