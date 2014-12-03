@@ -1,0 +1,9 @@
+FORTAN FINAL PROJECT TODO
+  IO
+    [x] INPUT
+      [x] Cmd-line input
+      [x] File input
+    [] OUTPUT
+      [] File output
+  SIMULATION
+    [] Everything
