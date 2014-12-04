@@ -6,6 +6,7 @@ MODULE IO
   CHARACTER(len=20) :: filename
 
   PUBLIC :: init_all
+  PUBLIC :: write_file
   contains
     SUBROUTINE read_file(p_list, *)
       IMPLICIT NONE
@@ -27,6 +28,7 @@ MODULE IO
       READ(9,'(I3)', IOSTAT = stat) n
       IF(stat /= 0 .OR. n <= 0) THEN
         WRITE(*,*) "Error on reading amount of particles, see example file"
+        CLOSE(UNIT=9)
         RETURN 1
       END IF
       
@@ -42,6 +44,7 @@ MODULE IO
         IF(stat /= 0 .OR. tempmass <= 0) THEN
           WRITE(*,*) "Error on particle on line ", i+1,", see example file"
           DEALLOCATE(p_list)
+          CLOSE(UNIT=9)
           RETURN 1
         END IF
         temp%id = tempid
@@ -50,9 +53,54 @@ MODULE IO
         temp%vel(1) = tempvx
         temp%vel(2) = tempvy
         temp%vel(3) = tempvz
-        p_list(n) = temp
+        p_list(i) = temp
       END DO
+      CLOSE(UNIT=9)
     END SUBROUTINE read_file
+    SUBROUTINE write_file(p_list, *)
+      IMPLICIT NONE
+      type (particle), DIMENSION(:), ALLOCATABLE, INTENT(IN) :: p_list
+
+      INTEGER :: stat, n, i
+
+      90 FORMAT(1X, "This is the output of the program, syntax is:", /, &
+                1X, "<number of passed particles>", /, &
+                1X, "<id> , <mass> , <charge> , <vx> , <vy> , <vz> , <px> , <py> , <pz>", //)
+
+      100 FORMAT(I3, 8(" , ", F10.0), /)
+
+      IF(.NOT. ALLOCATED(p_list)) THEN
+        WRITE(*,*) "Error: Passed particle list not allocated in output writing!"
+        RETURN 1
+      END IF
+
+      OPEN(UNIT = 10, FILE="output.dat", STATUS='REPLACE', ACTION='WRITE', IOSTAT=stat)
+
+      IF(stat /= 0) THEN
+        WRITE(*,*) "Error on creating output file, error code: ", stat
+        RETURN 1
+      END IF
+
+      n = SIZE(p_list)
+
+      WRITE(10, 90)
+      
+      WRITE(10, '(I3, /)') n
+
+      DO i=1, n
+        WRITE(10, 100, IOSTAT = stat) p_list(i)%id, p_list(i)%m, p_list(i)%q &
+                                       , p_list(i)%vel(1), p_list(i)%vel(2), p_list(i)%vel(3) &
+                                        , p_list(i)%pos(1), p_list(i)%pos(2), p_list(i)%pos(3)
+        IF(stat /= 0) THEN
+          WRITE(*,*) "Write of particle number: ", i, " failed."
+          CLOSE(UNIT = 10)
+          RETURN 1
+        END IF
+      END DO
+      CLOSE(UNIT=10)
+    END SUBROUTINE write_file
+
+
     SUBROUTINE parse_real(n, target, *)
       IMPLICIT NONE
       INTEGER, INTENT(IN) :: n

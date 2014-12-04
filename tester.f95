@@ -12,8 +12,9 @@ PROGRAM tester
   WRITE(*,*) e
   WRITE(*,*) b
 
-  WRITE(*,*) "Particle 2 ID:", p_list(2)%id, "mass: ", p_list(2)%m
+  WRITE(*,*) "Particle 1 ID:", p_list(1)%id, "mass: ", p_list(1)%m
 
+  CALL write_file(p_list, *100)  
 
   RETURN
   100 WRITE(*,*) "FAIL"

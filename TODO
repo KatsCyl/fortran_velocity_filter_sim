@@ -1,9 +1,15 @@
 FORTAN FINAL PROJECT TODO
-  IO
-    [x] INPUT
-      [x] Cmd-line input
-      [x] File input
-    [] OUTPUT
-      [] File output
-  SIMULATION
-    [] Everything
+  [/] Part1
+    [x] IO
+      [x] Read charges from file
+      [x] Read environment data from command line
+      [x] Write passed charges to file
+    [] Simulation
+      [] Calculate force
+      [] Calculate acceleration
+      [] Simulate motion using Verlet
+  []Part2
+    [] Testing 
+      [] Create test input
+      [] Test code with atleast two different inputs
+      [] Show that particles with v = E/B get through, others dont 

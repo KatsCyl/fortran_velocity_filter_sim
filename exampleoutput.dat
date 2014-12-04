@@ -1,0 +1,11 @@
+ This is the output of the program, syntax is:
+ <number of passed particles>
+ <id> , <mass> , <charge> , <vx> , <vy> , <vz> , <px> , <py> , <pz>
+
+
+  2
+
+  1 ,        53. ,        -2. ,         1. ,         1. ,         1. ,         1. ,         1. ,         1.
+
+  2 ,        33. ,         2. ,         2. ,         2. ,         2. ,         1. ,         1. ,         1.
+
