@@ -32,8 +32,6 @@ MODULE IO
         RETURN 1
       END IF
       
-      WRITE(*,*) "Number of particles expected: ", n
-            
       IF(ALLOCATED(p_list)) THEN
         DEALLOCATE(p_list)
       END IF
@@ -99,8 +97,6 @@ MODULE IO
       END DO
       CLOSE(UNIT=10)
     END SUBROUTINE write_file
-
-
     SUBROUTINE parse_real(n, target, *)
       IMPLICIT NONE
       INTEGER, INTENT(IN) :: n
@@ -140,7 +136,7 @@ MODULE IO
       CALL GET_COMMAND_ARGUMENT(n, target, len, stat)
       
       IF(len > 20 .OR. stat /= 0) THEN
-        WRITE(*,120) "Parse error on", n,"th cdm argument, is filename too long? Max 20"
+        WRITE(*,120) "Parse error on", n,"th cmd argument, is filename too long? Max 20"
         RETURN 1
       END IF
     END SUBROUTINE parse_string

@@ -4,10 +4,10 @@ FORTAN FINAL PROJECT TODO
       [x] Read charges from file
       [x] Read environment data from command line
       [x] Write passed charges to file
-    [] Simulation
-      [] Calculate force
-      [] Calculate acceleration
-      [] Simulate motion using Verlet
+    [/] Simulation
+      [x] Calculate force
+      [x] Calculate acceleration, position and speed using verlet
+      [/] Simulate motion
   []Part2
     [] Testing 
       [] Create test input
