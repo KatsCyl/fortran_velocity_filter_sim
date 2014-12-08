@@ -9,6 +9,6 @@ MODULE particleDef
     type (particle) :: part
     LOGICAL :: succ
   end type resParticle
-  REAL :: e_to_coulomb = 1.602176565E-19
-  REAL :: u_to_kg = 1.660538921E-27
+  REAL(real_kind) :: e_to_coulomb = 1.602176565E-19
+  REAL(real_kind) :: u_to_kg = 1.660538921E-27
 END MODULE particleDef

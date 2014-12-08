@@ -34,13 +34,12 @@ MODULE simulator
       type (particle), INTENT(INOUT) :: p
 
       REAL(real_kind), DIMENSION(3) :: tempacc
-   
-      p%pos = p%pos + p%vel*dt + 1/2 * p%acc*dt**2
-      
+
+      p%pos = p%pos + p%vel*dt + 0.5 * p%acc*dt**2
       tempacc = p%acc
       p%acc = lorenz_force(p)/(p%m*u_to_kg)
 
-      p%vel = p%vel + 1/2 * (tempacc + p%acc)*dt
+      p%vel = p%vel + 0.5 * (tempacc + p%acc)*dt
     END SUBROUTINE verlet
     SUBROUTINE push_to_array(arr, val)
       IMPLICIT NONE
@@ -57,7 +56,7 @@ MODULE simulator
         arrsize = SIZE(arr)
         ALLOCATE(temparr(arrsize + 1))
         DO i=1, arrsize
-          temparr = arr(i)
+          temparr(i) = arr(i)
         END DO
         temparr(arrsize+1) = val
         DEALLOCATE(arr)
@@ -66,7 +65,7 @@ MODULE simulator
         DEALLOCATE(temparr)
       END IF
     END SUBROUTINE push_to_array
-    PURE FUNCTION simulate_particle(p)
+    FUNCTION simulate_particle(p)
       IMPLICIT NONE
       type (particle), INTENT(IN) :: p
       type (resParticle) :: simulate_particle
@@ -77,6 +76,7 @@ MODULE simulator
       
       DO WHILE ((0 < temp%pos(1)) .AND. (boxx > temp%pos(1)) .AND. (0 < temp%pos(3)) .AND. (temp%pos(3) < boxz))
         CALL verlet(temp)
+!        write(*,*) temp%pos
         IF (temp%pos(2) > boxy) THEN
           simulate_particle%part = temp
           simulate_particle%succ = .TRUE.
@@ -91,6 +91,7 @@ MODULE simulator
       IMPLICIT NONE
       INTEGER :: i
       type (resParticle) :: temp
+
       CALL init_env(*10)
       
       IF(ALLOCATED(p_particles)) THEN
@@ -99,6 +100,7 @@ MODULE simulator
       DO i=1, size(particles)
         temp = simulate_particle(particles(i))
         IF(temp%succ) THEN
+          WRITE(*,*) "particle id: ", temp%part%id, "succeeded"
           CALL push_to_array(p_particles, temp%part)
         END IF
       END DO
