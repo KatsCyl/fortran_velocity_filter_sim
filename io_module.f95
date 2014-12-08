@@ -14,9 +14,9 @@ MODULE IO
 
       type (particle) :: temp
       INTEGER :: n, tempid, stat, i
-      REAL :: tempvx, tempvy, tempvz, tempmass, tempq
+      REAL(real_kind) :: tempvx, tempvy, tempvz, tempmass, tempq
 
-      100 FORMAT(I3, 5F10.0)
+      100 FORMAT(I3, 5F20.0)
 
       OPEN(UNIT = 9, FILE=filename, IOSTAT=stat, STATUS='OLD', ACTION='READ')
 
@@ -65,18 +65,19 @@ MODULE IO
                 1X, "<number of passed particles>", /, &
                 1X, "<id> , <mass> , <charge> , <vx> , <vy> , <vz> , <px> , <py> , <pz>", //)
 
-      100 FORMAT(I3, 8(" , ", F10.0), /)
-
-      IF(.NOT. ALLOCATED(p_list)) THEN
-        WRITE(*,*) "Error: Passed particle list not allocated in output writing!"
-        RETURN 1
-      END IF
+      100 FORMAT(I3, 8(" , ", F10.6), /)
 
       OPEN(UNIT = 10, FILE="output.dat", STATUS='REPLACE', ACTION='WRITE', IOSTAT=stat)
 
       IF(stat /= 0) THEN
         WRITE(*,*) "Error on creating output file, error code: ", stat
         RETURN 1
+      END IF
+
+      IF(.NOT. ALLOCATED(p_list)) THEN
+        WRITE(10, 90)
+        WRITE(10, '(A, /)') "No particles passed"
+        RETURN
       END IF
 
       n = SIZE(p_list)
@@ -100,10 +101,10 @@ MODULE IO
     SUBROUTINE parse_real(n, target, *)
       IMPLICIT NONE
       INTEGER, INTENT(IN) :: n
-      REAL, INTENT(OUT) :: target
+      REAL(real_kind), INTENT(OUT) :: target
 
       CHARACTER(len=20) :: argument
-      REAL :: temp
+      REAL(real_kind) :: temp
       INTEGER :: len, stat, readstat
 
       110 FORMAT(1X, "Usage: <program name> dt bx by bz ex ey ez filename", //)
@@ -141,8 +142,8 @@ MODULE IO
       END IF
     END SUBROUTINE parse_string
     SUBROUTINE get_cmd_args(dt, b, e, *)
-      REAL, INTENT(OUT) :: dt
-      REAL, INTENT(OUT), DIMENSION(3) :: b, e
+      REAL(real_kind), INTENT(OUT) :: dt
+      REAL(real_kind), INTENT(OUT), DIMENSION(3) :: b, e
 
       CALL parse_real(1, dt, *555)
       CALL parse_real(2, b(1), *555)
@@ -157,8 +158,8 @@ MODULE IO
     END SUBROUTINE
     SUBROUTINE init_all(p_list, dt, b, e, *)
       type (particle), ALLOCATABLE, DIMENSION(:) :: p_list
-      REAL, INTENT(OUT) :: dt
-      REAL, INTENT(OUT), DIMENSION(3) :: b, e
+      REAL(real_kind), INTENT(OUT) :: dt
+      REAL(real_kind), INTENT(OUT), DIMENSION(3) :: b, e
       
       CALL get_cmd_args(dt, b, e, *100)
       CALL read_file(p_list, *100)

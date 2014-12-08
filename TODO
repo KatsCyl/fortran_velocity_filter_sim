@@ -4,12 +4,12 @@ FORTAN FINAL PROJECT TODO
       [x] Read charges from file
       [x] Read environment data from command line
       [x] Write passed charges to file
-    [/] Simulation
+    [x] Simulation
       [x] Calculate force
       [x] Calculate acceleration, position and speed using verlet
-      [/] Simulate motion
-  []Part2
-    [] Testing 
-      [] Create test input
+      [x] Simulate motion
+  [/]Part2
+    [/] Testing 
+      [/] Create test input
       [] Test code with atleast two different inputs
-      [] Show that particles with v = E/B get through, others dont 
+      [/] Show that particles with v = E/B get through, others dont 
