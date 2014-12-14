@@ -63,9 +63,11 @@ MODULE IO
 
       90 FORMAT(1X, "This is the output of the program, syntax is:", /, &
                 1X, "<number of passed particles>", /, &
-                1X, "<id> , <mass> , <charge> , <vx> , <vy> , <vz> , <px> , <py> , <pz>", //)
+                1X, "<id> , <mass in atomic mass unit> , &
+                     <charge in elementary charges> , &
+                     <vx in m/s> , <vy in m/s> , <vz in m/s> , <px in m> , <py in m> , <pz in m>", //)
 
-      100 FORMAT(I3, 8(" , ", F10.6), /)
+      100 FORMAT(I3, 8(" , ", F11.6), /)
 
       OPEN(UNIT = 10, FILE="output.dat", STATUS='REPLACE', ACTION='WRITE', IOSTAT=stat)
 
@@ -107,7 +109,7 @@ MODULE IO
       REAL(real_kind) :: temp
       INTEGER :: len, stat, readstat
 
-      110 FORMAT(1X, "Usage: <program name> dt bx by bz ex ey ez filename", //)
+      110 FORMAT(1X, "Usage:", /, " <program name> dt(s) bx(T) by(T) bz(T) ex(kV/m) ey(kV/m) ez(kV/m filename", //)
       120 FORMAT(1X, A, I2, A)
       CALL GET_COMMAND_ARGUMENT(n, argument, len, stat)
 

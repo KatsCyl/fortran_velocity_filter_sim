@@ -14,12 +14,6 @@ MODULE simulator
   PUBLIC :: run_sim
   
   contains
-    SUBROUTINE init_env(*)
-      IMPLICIT NONE
-      CALL init_all(particles,  dt, b, e, *10)
-      RETURN
-      10 RETURN 1
-    END SUBROUTINE init_env
    PURE FUNCTION lorenz_force(p)
       IMPLICIT NONE
       REAL(real_kind), DIMENSION(3) :: lorenz_force
@@ -65,7 +59,7 @@ MODULE simulator
         DEALLOCATE(temparr)
       END IF
     END SUBROUTINE push_to_array
-    FUNCTION simulate_particle(p)
+    PURE FUNCTION simulate_particle(p)
       IMPLICIT NONE
       type (particle), INTENT(IN) :: p
       type (resParticle) :: simulate_particle
@@ -76,7 +70,6 @@ MODULE simulator
       
       DO WHILE ((0 < temp%pos(1)) .AND. (boxx > temp%pos(1)) .AND. (0 < temp%pos(3)) .AND. (temp%pos(3) < boxz))
         CALL verlet(temp)
-!        write(*,*) temp%pos
         IF (temp%pos(2) > boxy) THEN
           simulate_particle%part = temp
           simulate_particle%succ = .TRUE.
@@ -92,7 +85,7 @@ MODULE simulator
       INTEGER :: i
       type (resParticle) :: temp
 
-      CALL init_env(*10)
+      CALL init_all(particles,  dt, b, e, *10)
       
       IF(ALLOCATED(p_particles)) THEN
         DEALLOCATE(p_particles)
@@ -100,11 +93,9 @@ MODULE simulator
       DO i=1, size(particles)
         temp = simulate_particle(particles(i))
         IF(temp%succ) THEN
-          WRITE(*,*) "particle id: ", temp%part%id, "succeeded"
           CALL push_to_array(p_particles, temp%part)
         END IF
       END DO
-      WRITE(*,*) ALLOCATED(p_particles)
       CALL write_file(p_particles, *10)
 
       RETURN
