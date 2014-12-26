@@ -4,7 +4,7 @@ fortran_velocity_filter_sim
 Mandatory university project for FORTAN course
 
 Usage:
-  1. Compile with `gfortran particleDef_module.f95 io_module.f95 simulation_module.f95 tester.f95`
+  1. Compile with `gfortran particleDef_module.f95 io_module.f95 simulation_module.f95 main.f95`
   2. Run with `./a.out timestep bx by bz ex ey ez input_filename`
   3. Read output from output.dat
 
