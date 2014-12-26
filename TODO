@@ -7,9 +7,9 @@ FORTAN FINAL PROJECT TODO
     [x] Simulation
       [x] Calculate force
       [x] Calculate acceleration, position and speed using verlet
-      [x] Simulate motion
-  [/]Part2
-    [/] Testing 
-      [/] Create test input
-      [] Test code with atleast two different inputs
-      [/] Show that particles with v = E/B get through, others dont 
+     [x] Simulate motion
+  [x]Part2
+    [x] Testing 
+      [x] Create test input
+      [x] Test code with atleast two different inputs
+      [x] Show that particles with v = E/B get through, others dont 
